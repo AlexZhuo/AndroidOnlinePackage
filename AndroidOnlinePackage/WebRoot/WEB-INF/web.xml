@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>AndroidOnlinePackage</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  <servlet>
+    <description></description>
+    <display-name>PackageOL</display-name>
+    <servlet-name>PackageOL</servlet-name>
+    <servlet-class>zz.vc.qduxsh.servlet.PackageOL</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PackageOL</servlet-name>
+    <url-pattern>/PackageOL</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>PackageProcess</display-name>
+    <servlet-name>PackageProcess</servlet-name>
+    <servlet-class>zz.vc.qduxsh.servlet.PackageProcess</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PackageProcess</servlet-name>
+    <url-pattern>/PackageProcess</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ApkFilesList</display-name>
+    <servlet-name>ApkFilesList</servlet-name>
+    <servlet-class>zz.vc.qduxsh.servlet.ApkFilesList</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ApkFilesList</servlet-name>
+    <url-pattern>/ApkFilesList</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>PullCodeServlet</display-name>
+    <servlet-name>PullCodeServlet</servlet-name>
+    <servlet-class>zz.vc.qduxsh.servlet.PullCodeServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>BranchList</servlet-name>
+    <servlet-class>zz.vc.qduxsh.servlet.BranchList</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>PullCodeServlet</servlet-name>
+    <url-pattern>/PullCodeServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>BranchList</servlet-name>
+    <url-pattern>/BranchList</url-pattern>
+  </servlet-mapping>
+</web-app>

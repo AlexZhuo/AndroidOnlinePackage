@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>index.html</title>
+	
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html"; charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">-->
+
+  </head>
+  
+  <body>
+<div class="container-fluid">    
+
+	<div class="jumbotron">
+	  <h1>欢迎使用 Android HTML5 自动打包工具!</h1>
+	  <p></p>
+	  <p><a class="btn btn-primary btn-lg" href="http://blog.csdn.net/lvshaorong/article/details/51385537" role="button">Alex的博客</a></p>
+	</div>
+	<div style="margin-left: auto;margin-right: auto">
+   <div class="checkbox">
+    <label>
+      <input id = "autoSign" type="checkbox" checked ="checked"> 自动签名
+    </label>
+  </div>
+    <div class="dropdown">
+	  <button id=currentBranch class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+	    	点击选择分支,默认master
+	  </button>
+	  <ul id="branch_names" class="dropdown-menu" aria-labelledby="dropdownMenu1">
+	    
+	  </ul>
+	</div>
+	
+	<div class="btn-group" data-toggle="buttons">
+	  <label class="btn btn-primary active env"code="0">
+	    <input type="radio" name="options" id="option1"  autocomplete="off" checked> staging
+	  </label>
+	  <label class="btn btn-primary env"code="1">
+	    <input type="radio" name="options" id="option2" autocomplete="off"> dev
+	  </label>
+	  <label class="btn btn-primary env"code="2">
+	    <input type="radio" name="options" id="option3" autocomplete="off"> alpha1
+	  </label>
+	  <label class="btn btn-primary env"code="3">
+	    <input type="radio" name="options" id="option3" autocomplete="off"> alpha2
+	  </label>
+	  <label class="btn btn-primary env"code="4">
+	    <input type="radio" name="options" id="option3" autocomplete="off"> alpha3
+	  </label>
+	  <label class="btn btn-primary env"code="5">
+	    <input type="radio" name="options" id="option3" autocomplete="off"> alpha4
+	  </label>
+	  <label class="btn btn-primary env" code="6">
+	    <input type="radio" name="options" id="option4" autocomplete="off"> live
+	  </label>
+	</div>
+	
+	<div>
+    	<span id="process">准备打包</span>
+    </div>
+    <div>
+		<button type="button" class="btn btn-primary" id=pull>拉取最新代码</button>
+		<button type="button" class="btn btn-success" id="startPackage">开始打包</button>
+		<button type="button" class="btn btn-info" id="download">下载apk</button>
+  	</div>
+  	<div>
+  	<div>已经打好的文件</div>
+  	<div id = "fileList" class="list-group">
+	  <button type="button" class="list-group-item">正在拉取可下载的文件，请稍候...</button>
+	</div>
+  	</div>
+  	</div>
+  </div>
+  </body>
+  <script type="text/javascript">
+  var showDialog = false;//这个是当前页面是否已经显示过一遍打板成功
+  var choosedBranch = "0";//这个记录当前选定的分支号，有三种选择，0，1,2,3默认为2
+  var environment = "0";
+  var autoSign = true;
+  var isPulling = false;
+  	$("#startPackage").click(function(){
+  		console.log("点击了开始打包");
+  		$.get("./PackageOL", "branch="+choosedBranch+"&environment="+environment+(autoSign?"&needSign=true":""), function(data, textStatus, req) {
+  			console.log("发来的data=="+data);
+  			if(data=="packaging"){
+  				$("#process").text("正在打包中，请稍等");
+  				window.alert("当前有其他用户正在打板，请稍候")
+  				return;
+  			}else if(data=="0"){
+  				$("#process").text("准备就绪");
+  			}else{
+  				$("#process").text("开始打包");
+  				showDialog = false;
+  				$("#download").unbind("click").click(function() {
+			  		console.log("点击了下载");
+			  		window.open("./release/"+data);//正常的话，返回的data是文件名
+  				});
+  			}
+  		});
+  		var task = window.setInterval(function() {
+  			console.log("发送获取进度的请求");
+  			$.get("./PackageProcess", "", function(data, textStatus, req) {
+  				console.log("ajax返回data是"+data);
+  				if(data=="succeed"){
+  					$("#process").text("打包成功，请点击下载");
+  					if(showDialog==false){
+  						window.alert("打包成功，请点击下载");
+  						listFiles();//刷新服务器端的文件列表
+  						showDialog = true;
+  					}
+  					window.clearInterval(task);
+  					return;
+  				}else{
+  					if(data.substr(0, 5)=="error"){
+  						window.clearInterval(task);
+  						showDialog = true;
+  						window.alert("打包失败，原因"+data);
+  					}
+  					$("#process").text(data);
+  				}
+  			});
+  		}, 2500);
+  	});
+  	
+  	$("#pull").click(function() {
+  		console.log("准备pull最新代码"+choosedBranch);
+  		if(isPulling){
+  			window.alert("上次代码还没有pull完");
+  			return;
+  		}
+  		$("#process").text("正在拉取代码，请稍等");
+  		isPulling = true;
+  		$.get("./PullCodeServlet", "branch="+choosedBranch, function(data, textStatus, req) {
+  			console.log("pull代码的data是"+data);
+  			if(data=="succeed")window.alert("pull 代码成功");
+  			else window.alert("pull 代码失败");
+  			$("#process").text("代码拉取完毕");
+  			isPulling = false;
+  		});
+  	});
+  	$(".env").click(function() {
+  		var button = this;
+  		environment = $(button).attr("code");
+  		console.log("environment是"+environment);
+  	});
+  	$("#autoSign").click(function() {
+  		autoSign = !autoSign;
+  	});
+  	//下面是获取最近打成功的app名字
+  	function listFiles(){
+  		$.get("./ApkFilesList", "", function(data, textStatus, req) {
+  			console.log("获取到的文件名是"+data);
+  			var fileNames= new Array();
+  			fileNames = data.split(",");
+  			var mHtml = "";
+  			for(var i=0;i<fileNames.length-1;i++){
+  				console.log("文件名是"+fileNames[i]);
+  				mHtml+="<button type='button' class='list-group-item' onclick=window.open('.\/release\/"+fileNames[i]+"')>"+fileNames[i]+"</button>";
+  			}
+  			$("#fileList").html(mHtml);
+  		});
+  	}
+  	listFiles();
+  	//下面是
+  	function listBranches(){
+  		$.get("./BranchList", "", function(data, textStatus, req) {
+  			console.log("获取到的分支名是"+data);
+  			var branchNames= new Array();
+  			branchNames = data.split(",");
+  			var mHtml = "";
+  			for(var i=0;i<branchNames.length;i++){
+  				console.log("branch is "+branchNames[i]);
+  				mHtml+="<li class=branch code="+i+"><a>"+branchNames[i]+"</a></li>"
+  			}
+  			$("#branch_names").html(mHtml);
+  			//下面是获取可以打包的分支
+			$(".branch").click(function() {
+				var li = this;
+				$("#currentBranch").text("当前分支："+$(li).text());
+				choosedBranch = $(li).attr("code");
+				console.log("当前选定"+choosedBranch);
+			});
+  		});
+  	}
+  	listBranches();
+  	
+  </script>
+</html>
