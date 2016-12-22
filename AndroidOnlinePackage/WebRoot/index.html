@@ -159,8 +159,8 @@
   			fileNames = data.split(",");
   			var mHtml = "";
   			for(var i=0;i<fileNames.length-1;i++){
-  				console.log("文件名是"+fileNames[i]);
-  				mHtml+="<button type='button' class='list-group-item' onclick=window.open('.\/release\/"+fileNames[i]+"')>"+fileNames[i]+"</button>";
+  				console.log("文件名是"+decodeURI(fileNames[i]));
+  				mHtml+="<button type='button' class='list-group-item' onclick=window.open('.\/release\/"+decodeURI(fileNames[i])+"')>"+decodeURI(fileNames[i])+"</button>";
   			}
   			$("#fileList").html(mHtml);
   		});

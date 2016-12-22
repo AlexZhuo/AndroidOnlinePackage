@@ -3,6 +3,7 @@ package zz.vc.qduxsh.servlet;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -53,7 +54,7 @@ public class ApkFilesList extends HttpServlet {
 		});
 		StringBuffer fileNames = new StringBuffer();
 		for(File f:apps){
-			fileNames.append(f.getName()).append(",");
+			fileNames.append(URLEncoder.encode(f.getName(),"UTF-8")).append(",");
 		}
 		PrintWriter out = response.getWriter();
 		out.print(fileNames.toString());
