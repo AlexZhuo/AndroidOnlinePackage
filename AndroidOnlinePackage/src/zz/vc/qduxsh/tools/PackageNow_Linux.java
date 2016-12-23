@@ -86,6 +86,7 @@ public class PackageNow_Linux {
 				"zipalign -f -v 4 "+APP_SIGNED+" "+APP_PUBLISH,
 			};
 	}
+	
 	/**
 	 * pull最新代码
 	 * @param branch
@@ -94,10 +95,12 @@ public class PackageNow_Linux {
 	public static String[] gitPull(int branch){//pull 一个分支的代码
 		return new String[]{
 			"cd "+BRANCHES[branch][0],//cd 到项目目录
-			"git checkout "+BRANCHES[branch][0]+"/*.java",
+			"git reset --hard commit号",//这里要修改成所有分支的一个根源commit号
+			"git clean -df",
 			"git pull "+GIT_ROOT + " "+BRANCHES[branch][1]
 		};
 	};
+
 	
 	/**
 	 * 执行一条命令行指令

@@ -90,8 +90,8 @@ public class PackageNow_windows {
 	public static String[] gitPull(int branch){//pull 一个分支的代码
 		return new String[]{
 			"cd "+BRANCHES[branch][0],//cd 到项目目录
-			BRANCHES[branch][0].charAt(0)+":",
-			"git checkout *.java",
+			"git reset --hard commit号",//这里要修改成所有分支的一个根源commit号
+			"git clean -df",
 			"git pull "+GIT_ROOT + " "+BRANCHES[branch][1]
 		};
 	};

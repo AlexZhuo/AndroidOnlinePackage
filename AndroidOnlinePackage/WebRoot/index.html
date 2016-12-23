@@ -36,6 +36,13 @@
 	  </ul>
 	</div>
 	
+	<div class="form-group" style="margin:10px 0px 0px 0px;">
+    <div class="input-group">
+      <div class="input-group-addon">文件名后缀</div>
+      <input class="form-control" type="text" id="file_name_postfix" placeholder="可不填,纯英文字符,加在文件名后面用来方便识别">
+    </div>
+  </div>
+	
 	<div class="btn-group" data-toggle="buttons">
 	  <label class="btn btn-primary active env"code="0">
 	    <input type="radio" name="options" id="option1"  autocomplete="off" checked> staging
@@ -85,42 +92,47 @@
   var isPulling = false;
   	$("#startPackage").click(function(){
   		console.log("点击了开始打包");
-  		$.get("./PackageOL", "branch="+choosedBranch+"&environment="+environment+(autoSign?"&needSign=true":""), function(data, textStatus, req) {
+  		showingDialog = false;
+  		var postfix = $("#file_name_postfix").val();
+  		console.log("postfix is "+postfix);
+  		$("#file_name_postfix").attr("disabled","true");
+  		$.get("./PackageOL", "branch="+choosedBranch+"&postfix="+postfix+"&environment="+environment+(autoSign?"&needSign=true":""), function(data, textStatus, req) {
   			console.log("发来的data=="+data);
   			if(data=="packaging"){
-  				$("#process").text("正在打包中，请稍等");
-  				window.alert("当前有其他用户正在打板，请稍候")
+  				window.alert("当前有其他用户正在打包，请稍候")
   				return;
-  			}else if(data=="0"){
-  				$("#process").text("准备就绪");
   			}else{
   				$("#process").text("开始打包");
-  				showDialog = false;
   				$("#download").unbind("click").click(function() {
 			  		console.log("点击了下载");
 			  		window.open("./release/"+data);//正常的话，返回的data是文件名
   				});
   			}
   		});
+  		window.clearInterval(task);
   		var task = window.setInterval(function() {
   			console.log("发送获取进度的请求");
   			$.get("./PackageProcess", "", function(data, textStatus, req) {
   				console.log("ajax返回data是"+data);
   				if(data=="succeed"){
   					$("#process").text("打包成功，请点击下载");
-  					if(showDialog==false){
+  					$("#file_name_postfix").val("");
+  					$("#file_name_postfix").removeAttr("disabled");
+  					if(!showingDialog){
   						window.alert("打包成功，请点击下载");
   						listFiles();//刷新服务器端的文件列表
-  						showDialog = true;
+  						showingDialog = true;
   					}
   					window.clearInterval(task);
   					return;
+  				}else if(data.substr(0, 5)=="error"){
+  					window.clearInterval(task);
+  					showingDialog = true;
+  					if(!showingDialog)window.alert("打包失败，原因"+data);
+  					$("#process").text("打包失败，原因"+data);
+  				}else if(data=="ready"){
+  					$("#process").text("当前没有打包任务");
   				}else{
-  					if(data.substr(0, 5)=="error"){
-  						window.clearInterval(task);
-  						showDialog = true;
-  						window.alert("打包失败，原因"+data);
-  					}
   					$("#process").text(data);
   				}
   			});
