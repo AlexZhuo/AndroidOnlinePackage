@@ -127,8 +127,8 @@
   					return;
   				}else if(data.substr(0, 5)=="error"){
   					window.clearInterval(task);
-  					showingDialog = true;
   					if(!showingDialog)window.alert("打包失败，原因"+data);
+  					showingDialog = true;
   					$("#process").text("打包失败，原因"+data);
   				}else if(data=="ready"){
   					$("#process").text("当前没有打包任务");
