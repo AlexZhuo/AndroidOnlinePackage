@@ -1,8 +1,8 @@
-package zz.vc.qduxsh.servlet;
-
+package zz.vc.qduxsh;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,8 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import zz.vc.qduxsh.tools.PackageNow_Linux;
-
+import zz.vc.tools.PackageNow;
 
 /**
  * Servlet implementation class PackageProcess
@@ -36,22 +35,22 @@ public class PackageProcess extends HttpServlet {
 		// TODO Auto-generated method stub
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		System.out.println("收到获取进度的请求"+PackageNow_Linux.progress);
-		if(lastProcess != null && lastProcess.equals(PackageNow_Linux.progress))mCount++;
+		System.out.println("收到获取进度的请求"+PackageNow.progress);
+		if(lastProcess != null && lastProcess.equals(PackageNow.progress))mCount++;
 		else mCount = 0;
-		lastProcess = PackageNow_Linux.progress;
+		lastProcess = PackageNow.progress;
 		if(mCount > 100){
-			PackageNow_Linux.progress ="error:编译失败";
-			PackageNow_Linux.isPackaging = false;
+			PackageNow.progress ="error:编译失败";
+			PackageNow.isPackaging = false;
 		}
-		System.out.println("当前进度是::::"+PackageNow_Linux.progress);
-		if(PackageNow_Linux.progress==null){
+		System.out.println("当前进度是::::"+PackageNow.progress);
+		if(PackageNow.progress==null){
 			out.write("ready");
 			out.flush();
 			out.close();
 			return;
 		}
-		out.write(PackageNow_Linux.progress);
+		out.write(URLEncoder.encode(PackageNow.progress,"UTF-8"));
 		out.flush();
 		out.close();
 	}

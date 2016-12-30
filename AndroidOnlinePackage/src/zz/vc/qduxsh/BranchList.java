@@ -1,4 +1,4 @@
-package zz.vc.qduxsh.servlet;
+package zz.vc.qduxsh;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -8,12 +8,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import zz.vc.qduxsh.tools.PackageNow_Linux;
+import zz.vc.tools.PackageNow;
 
 public class BranchList extends HttpServlet {
 
 	/**
-	 * 根据PackageNow那个类中记录分支及其目录的静态数组拉取所有的分支目录
+	 * The doGet method of the servlet. <br>
+	 *
+	 * This method is called when a form has its tag value method equals to get.
 	 * 
 	 * @param request the request send by the client to the server
 	 * @param response the response send by the server to the client
@@ -25,7 +27,7 @@ public class BranchList extends HttpServlet {
 
 		response.setContentType("text/html");
 		String output = "";
-		for(String[] ss : PackageNow_Linux.BRANCHES){
+		for(String[] ss : PackageNow.BRANCHES){
 			output = output+ss[1]+",";
 		}
 		output = output.substring(0,output.length()-1);//remove ,

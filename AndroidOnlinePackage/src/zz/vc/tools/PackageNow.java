@@ -1,4 +1,4 @@
-package zz.vc.qduxsh.tools;
+package zz.vc.tools;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -8,48 +8,50 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.LineNumberReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.SequenceInputStream;
 
 
-public class PackageNow_Linux {
+public class PackageNow {
 	//记录每个分支git仓库的地址
-	public static final String[] BRANCH_0 = {"/home/alex/QA/master/ProjectDir","master"};//第0个分支的相关信息，第一个是位置，第二个是分支号，第三个是编译器位置
-	public static final String[] BRANCH_1 = {"/home/alex/QA/branch1/ProjectDir","dev"};//第1个分支的相关信息，第一个是位置，第二个是分支号，第三个是编译器位置
-	public static final String[] BRANCH_2 = {"/home/alex/QA/branch2/ProjectDir","hot-fix"};//第2个分支的相关信息，第一个是位置，第二个是分支号，第三个是编译器位置
-	public static final String[] BRANCH_3 = {"/home/alex/QA/branch3/ProjectDir","bug-fix"};//第3个分支的相关信息，第一个是位置，第二个是分支号，第三个是编译器位置
-	public static final String[] BRANCH_4 = {"/home/alex/QA/branch4/ProjectDir","分支名"};//第4个分支的相关信息，第一个是位置，第二个是分支号，第三个是编译器位置
-	public static final String[] BRANCH_5 = {"/home/alex/QA/branch5/ProjectDir","分支名"};//第5个分支的相关信息，第一个是位置，第二个是分支号，第三个是编译器位置
-	public static final String[] BRANCH_6 = {"/home/alex/QA/branch6/ProjectDir","分支名"};//第6个分支的相关信息，第一个是位置，第二个是分支号，第三个是编译器位置
-	public static final String[] BRANCH_7 = {"/home/alex/QA/branch7/ProjectDir","分支名"};//第7个分支的相关信息，第一个是位置，第二个是分支号，第三个是编译器位置
-	public static final String[] BRANCH_8 = {"/home/alex/QA/branch8/ProjectDir","分支名"};//第8个分支的相关信息，第一个是位置，第二个是分支号，第三个是编译器位置
-	public static final String[][] BRANCHES = {BRANCH_0,BRANCH_1,BRANCH_2,BRANCH_3,BRANCH_4,BRANCH_5,BRANCH_6,BRANCH_7,BRANCH_8};
-	
-	public static final String GIT_ROOT = "https://AlexZhuo:123456@github.com/AlexZhuo/AlxImageLoader";//外网的git 地址,冒号前面是用户名，后面是密码，结尾一般带有.git
+	public static final String[] BRANCH_0 = {"/home/alex/QA/master/yourProject","master"};//第0个分支的相关信息，第一个是位置，第二个是分支号，第三个是编译器位置
+	public static final String[] BRANCH_1 = {"/home/alex/QA/branch1/yourProject","develop"};//第0个分支的相关信息，第一个是位置，第二个是分支号，第三个是编译器位置
+	public static final String[] BRANCH_2 = {"/home/alex/QA/branch2/yourProject","feature/APK-builder-2"};//第0个分支的相关信息，第一个是位置，第二个是分支号，第三个是编译器位置
+	public static final String[] BRANCH_3 = {"/home/alex/QA/branch3/yourProject","feature/APK-builder-3"};//第0个分支的相关信息，第一个是位置，第二个是分支号，第三个是编译器位置
+	public static final String[] BRANCH_4 = {"/home/alex/QA/branch4/yourProject","feature/APK-builder-4"};//第0个分支的相关信息，第一个是位置，第二个是分支号，第三个是编译器位置
+	public static final String[] BRANCH_5 = {"/home/alex/QA/branch5/yourProject","feature/APK-builder-5"};//第0个分支的相关信息，第一个是位置，第二个是分支号，第三个是编译器位置
+	public static final String[] BRANCH_6 = {"/home/alex/QA/branch6/yourProject","feature/APK-builder-contribution"};//第0个分支的相关信息，第一个是位置，第二个是分支号，第三个是编译器位置
+	public static final String[] BRANCH_7 = {"/home/alex/QA/branch7/yourProject","feature/APK-builder-personalization"};//第0个分支的相关信息，第一个是位置，第二个是分支号，第三个是编译器位置
+	public static final String[] BRANCH_8 = {"/home/alex/QA/branch8/yourProject","feature/APK-builder-social"};//第0个分支的相关信息，第一个是位置，第二个是分支号，第三个是编译器位置
+	public static final String[] BRANCH_9 = {"/home/alex/QA/branch9/yourProject","feature/APK-builder-alex"};//第0个分支的相关信息，第一个是位置，第二个是分支号，第三个是编译器位置
+	public static final String[] BRANCH_10 = {"/home/alex/QA/branch10/yourProject","feature/APK-builder-carlos"};//第0个分支的相关信息，第一个是位置，第二个是分支号，第三个是编译器位置
+	public static final String[] BRANCH_11 = {"/home/alex/QA/branch11/yourProject","feature/APK-builder-robin"};//第0个分支的相关信息，第一个是位置，第二个是分支号，第三个是编译器位置
+	public static final String[] BRANCH_12 = {"/home/alex/QA/branch12/yourProject","bugfix/xxx"};//第0个分支的相关信息，第一个是位置，第二个是分支号，第三个是编译器位置
+	public static final String[][] BRANCHES = {BRANCH_0,BRANCH_1,BRANCH_2,BRANCH_3,BRANCH_4,BRANCH_5,BRANCH_6,BRANCH_7,BRANCH_8,BRANCH_9,BRANCH_10,BRANCH_11,BRANCH_12};
+	public static final String ROOT_COMMIT = "46d8985";//可以作为各分支公共原点的commit号
+	public static final String KEYSTORE_PASSWORD = "your keystore password";
+	public static final String ALIAS = "your alias name";
+	//用于签名apk的签名文件的路径
+	public static final String KEY_PATH = "/home/alex/QA/file/key";
+	public static final String GIT_ROOT = "https://username:password@bitbucket.org/xxx/yourProject.git";//外网的git 地址
 	
 	public static final String APK_PATH = "/app/build/outputs/apk";//进入项目目录后，gradle编译完成后输出apk的目录
 	//下面是编译完后生成apk的文件名
-	public static final String APP_DEBUG = "app-debug.apk";//打了默认签名的apk
+	public static String APP_DEBUG = "app-debug.apk";//打了默认签名的apk,build命令有效
+	public static String APP_UNSIGNED = "app-&&-release-unsigned.apk";//打了默认签名的apk,assmbleRelease命令有效
 	public static final String APP_SIGNED = "app-signed.apk";//打了正式签名，但是没有4k对齐的apk名字
 	public static final String APP_PUBLISH = "app-publish.apk";//打了正式签名，且对齐了的apk名字
-	//用于签名apk的签名文件的路径
-	public static final String KEY_PATH = "/home/alex/QA/file/key";
 	
-	//要根据不同服务器环境替换文件的路径
-	public static final String LIVE_FILE = "/home/alex/QA/file/live/Config.java";//记录live环境的java文件的路径，准备用于替换
-	public static final String STAGING_FILE = "/home/alex/QA/file/staging/Config.java";//staging环境的替换文件
-	public static final String DEV_FILE = "/home/alex/QA/file/dev/Config.java";//dev环境的替换文件
-	public static final String OTHER1_FILE = "/home/alex/QA/file/other1/Config.java";//其他环境
-	public static final String OTHER2_FILE = "/home/alex/QA/file/other2/Config.java";
-	public static final String OTHER3_FILE = "/home/alex/QA/file/other3/Config.java";
-	public static final String OTHER4_FILE = "/home/alex/QA/file/other4/Config.java";
-	public static final String[] environmentNames = {"Staging","Dev","Ohter1","Other2","Other3","Other4","Live"};//获取每个环境的名字，用于给文件命名的，下标是环境的代号
-	public static final String[] ENVIRONMENTS = {STAGING_FILE,DEV_FILE,OTHER1_FILE,OTHER2_FILE,OTHER3_FILE,OTHER4_FILE,LIVE_FILE};//要根据不同环境替换文件的路径
-	public static final String ENV_FILE = "/app/src/main/java/conf/Config.java";//要根据环境不同来动态被的项目里替换的java文件
 	
-	public static final int totalCount = 500;//git编译控制台输出的总行数，用于判断进度
+	//替换文件的路径
+	public static final String GIF_GRADLE = "/home/alex/QA/file/build.gradle";
+	public static final String GIF_FILE = "/libraries/android-gif-drawable/build.gradle";
+	//获取每个环境的名字，用于给文件命名的，下标是环境的代号
+	public static final String[] environmentNames = {"Staging","Dev","Alpha1","Alpha2","Alpha3","Alpha4","Live"};
+	public static final String GRADLE_HOME = "/opt/android-studio/gradle/gradle-2.14.1";
+	
+	public static final int totalCount = 997;//git编译控制台输出的总行数，用于判断进度
 	public static String progress;//记录当前的打包进度
 	public static boolean isPackaging = false;//记录带当前是否在打包，控制同一时刻只有一个打包进程，节省cpu，内存开销
 	/**
@@ -57,10 +59,10 @@ public class PackageNow_Linux {
 	 * @param branch
 	 * @return 返回值是命令行命令
 	 */
-	public static String[]  packageNow(int branch) {//开始打包
+	public static String[]  packageNow(int branch,String env) {//开始打包
 		return new String[]{
 			"cd "+BRANCHES[branch][0],//cd 到项目目录
-			"gradle build"//正式进行编译
+			GRADLE_HOME+"/bin/gradle assemble&&Release".replace("&&", env)//正式进行编译
 		};
 	};
 	/**
@@ -68,11 +70,10 @@ public class PackageNow_Linux {
 	 * @param branch
 	 * @return 返回值是命令行命令
 	 */
-	public static String[] signKey(int branch){
+	public static String[] signKey(int branch,String env){
 		return new String[]{
 			"cd "+BRANCHES[branch][0]+APK_PATH,	
-			//注意这里要替换密码，KEY_ALIAS，加密方式为你项目中的设置
-			"jarsigner -verbose -keystore "+KEY_PATH+" -storepass 密码 -signedjar "+APP_SIGNED+" -digestalg SHA1 -sigalg MD5withRSA app-release-unsigned.apk KEY_ALIAS",
+			"jarsigner -verbose -keystore "+KEY_PATH+" -storepass "+KEYSTORE_PASSWORD+" -signedjar "+APP_SIGNED+" -digestalg SHA1 -sigalg MD5withRSA "+APP_UNSIGNED.replace("&&", env.toLowerCase())+" "+ALIAS,
 		};
 	}
 	/**
@@ -86,7 +87,6 @@ public class PackageNow_Linux {
 				"zipalign -f -v 4 "+APP_SIGNED+" "+APP_PUBLISH,
 			};
 	}
-	
 	/**
 	 * pull最新代码
 	 * @param branch
@@ -95,12 +95,13 @@ public class PackageNow_Linux {
 	public static String[] gitPull(int branch){//pull 一个分支的代码
 		return new String[]{
 			"cd "+BRANCHES[branch][0],//cd 到项目目录
-			"git reset --hard commit号",//这里要修改成所有分支的一个根源commit号
+			"git reset --hard "+ROOT_COMMIT,
 			"git clean -df",
+//			"git checkout "+BRANCHES[branch][0]+"/*.java",
+//			"git checkout "+BRANCHES[branch][0]+"/*.xml",
 			"git pull "+GIT_ROOT + " "+BRANCHES[branch][1]
 		};
 	};
-
 	
 	/**
 	 * 执行一条命令行指令
@@ -149,7 +150,7 @@ public class PackageNow_Linux {
 	 * @author Administrator
 	 *
 	 */
-	public interface ReadLineCallBack{
+	public static interface ReadLineCallBack{
 		void readLine(String line);
 	}
 	
@@ -167,24 +168,25 @@ public class PackageNow_Linux {
 		progress ="正在进行编译";
 		
 		final int[]rowCount_progress = {0,0};//第0个记录当前是第几行，第1个记录进度百分比
-		File targetEnvFile = new File(BRANCHES[branch][0]+ENV_FILE);//工作空间里的环境配置文件
-		File sourceEnvFile = new File(ENVIRONMENTS[environment]);//写好环境的外头的配置文件
-		copyFile(sourceEnvFile, targetEnvFile);
-		runOneRow(packageNow(branch), new ReadLineCallBack() {
+		File giftargetFile = new File(BRANCHES[branch][0]+GIF_FILE);
+		File gifSourceFile = new File(GIF_GRADLE);
+		replaceFile(gifSourceFile,giftargetFile);
+		runOneRow(packageNow(branch,environmentNames[environment]), new ReadLineCallBack() {
 			
 			public void readLine(String line) {
 				// TODO Auto-generated method stub
 				rowCount_progress[0]++;
-				if(!progress.equals("编译完成") &&!progress.equals("error:编译失败"))progress = "Progress:"+String.valueOf(Math.round((float)rowCount_progress[0]/(float)totalCount*100)+"%");
+				if(!progress.equals("编译完成") &&!progress.equals("error:编译失败"))progress = String.valueOf(Math.round((float)rowCount_progress[0]/(float)totalCount*100)+"%");
 				if(line.startsWith(":")||line.startsWith("Reading")||line.startsWith("Note"))return;
 				if(line.startsWith("BUILD SUCCESSFUL")){
 					if(!sign)isPackaging = false;
 					System.out.println("编译成功啦");
 					progress = "编译完成";//如果不需要签名，那么现在已经成功了
-				}else if(line.startsWith("BUILD FAILED")){
+				}else if(line.startsWith("BUILD FAILED") || "error:编译失败".equals(progress)){
 					progress = "error:编译失败";
 					isPackaging = false;
 				}
+				
 			}
 		});
 		if(!progress.equals("编译完成")){
@@ -195,7 +197,7 @@ public class PackageNow_Linux {
 		System.out.println("一共有"+rowCount_progress[0]+"行");
 		if(sign){//如果需要签名
 			System.out.println("准备进行签名"+BRANCHES[branch][0]);
-			runOneRow(signKey(branch), new ReadLineCallBack() {
+			runOneRow(signKey(branch,environmentNames[environment]), new ReadLineCallBack() {
 				
 				public void readLine(String line) {
 					// TODO Auto-generated method stub
@@ -230,12 +232,12 @@ public class PackageNow_Linux {
 			}
 		}
 		progress = "正在准备传送文件";
-		File sourceFile = new File(BRANCHES[branch][0]+APK_PATH+"/"+(sign?APP_PUBLISH:APP_DEBUG));//需要签名和不需要签名给出的带key的app名字不一样
+		File sourceFile = new File(BRANCHES[branch][0]+APK_PATH+"/"+(sign?APP_PUBLISH:APP_UNSIGNED.replace("&&", environmentNames[environment]).toLowerCase()));//需要签名和不需要签名给出的带key的app名字不一样
 		System.out.println("源文件"+sourceFile.getAbsolutePath()+sourceFile.exists());
 		System.out.println("源文件的大小是"+sourceFile.length());
 		if(sourceFile.exists() && sourceFile.isFile() && sourceFile.length()>100000){
 			File targetFile = new File(appLocation);
-			if(copyFile(sourceFile, targetFile))System.out.println("文件复制成功"+targetFile.length());
+			if(replaceFile(sourceFile, targetFile))System.out.println("文件复制成功"+targetFile.length());
 			progress = "succeed";//在这里算彻底的成功
 		}else {
 			progress = "error:失败";
@@ -249,7 +251,7 @@ public class PackageNow_Linux {
 	 * @param targetFile
 	 * @return
 	 */
-	public static boolean copyFile(File sourceFile,File targetFile){
+	public static boolean replaceFile(File sourceFile,File targetFile){
 		long beginTime = System.currentTimeMillis();
 		
 		if(sourceFile==null||targetFile==null)return false;
@@ -300,5 +302,4 @@ public class PackageNow_Linux {
         return true;
 	}
 	
-
 }

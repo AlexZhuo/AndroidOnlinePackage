@@ -1,4 +1,4 @@
-package zz.vc.qduxsh.servlet;
+package zz.vc.qduxsh;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,11 +13,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import zz.vc.qduxsh.tools.PackageNow_Linux;
-import zz.vc.qduxsh.tools.PackageNow_Linux.ReadLineCallBack;
+import zz.vc.tools.PackageNow;
+import zz.vc.tools.PackageNow.ReadLineCallBack;
 
 /**
- * 用于查询release文件夹下以前打好的文件目录
+ * Servlet implementation class BranchesList
  */
 public class ApkFilesList extends HttpServlet {
 	private static final long serialVersionUID = 1L;

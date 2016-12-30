@@ -17,9 +17,9 @@
 <div class="container-fluid">    
 
 	<div class="jumbotron">
-	  <h1>欢迎使用 Android HTML5 自动打包工具!</h1>
+	  <h1>欢迎使用Qraved Android HTML5 自动打包工具!</h1>
 	  <p></p>
-	  <p><a class="btn btn-primary btn-lg" href="http://blog.csdn.net/lvshaorong/article/details/51385537" role="button">Alex的博客</a></p>
+	  <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
 	</div>
 	<div style="margin-left: auto;margin-right: auto">
    <div class="checkbox">
@@ -36,14 +36,15 @@
 	  </ul>
 	</div>
 	
-	<div class="form-group" style="margin:10px 0px 0px 0px;">
+  <div class="form-group" style="margin:10px 0px 0px 0px;">
     <div class="input-group">
       <div class="input-group-addon">文件名后缀</div>
-      <input class="form-control" type="text" id="file_name_postfix" placeholder="可不填,纯英文字符,加在文件名后面用来方便识别">
+      <input class="form-control" type="text" id="file_name_postfix" placeholder="可不填,可使用中文,加在文件名后面用来方便识别">
     </div>
   </div>
-	
-	<div class="btn-group" data-toggle="buttons">
+  
+  
+	<div class="btn-group" data-toggle="buttons" style="margin:10px 0px 0px 0px;">
 	  <label class="btn btn-primary active env"code="0">
 	    <input type="radio" name="options" id="option1"  autocomplete="off" checked> staging
 	  </label>
@@ -67,10 +68,10 @@
 	  </label>
 	</div>
 	
-	<div>
+	<div style="margin:10px 0px 10px 0px;">
     	<span id="process">准备打包</span>
     </div>
-    <div>
+    <div style="margin:10px 0px 10px 0px;">
 		<button type="button" class="btn btn-primary" id=pull>拉取最新代码</button>
 		<button type="button" class="btn btn-success" id="startPackage">开始打包</button>
 		<button type="button" class="btn btn-info" id="download">下载apk</button>
@@ -85,7 +86,7 @@
   </div>
   </body>
   <script type="text/javascript">
-  var showDialog = false;//这个是当前页面是否已经显示过一遍打板成功
+  var showingDialog = false;//这个是当前页面是否已经显示过一遍打板成功
   var choosedBranch = "0";//这个记录当前选定的分支号，有三种选择，0，1,2,3默认为2
   var environment = "0";
   var autoSign = true;
@@ -102,10 +103,10 @@
   				window.alert("当前有其他用户正在打包，请稍候")
   				return;
   			}else{
-  				$("#process").text("开始打包");
+  				$("#process").text("正在打包ing...");
   				$("#download").unbind("click").click(function() {
 			  		console.log("点击了下载");
-			  		window.open("./release/"+data);//正常的话，返回的data是文件名
+			  		window.open("./release/"+decodeURI(data));//正常的话，返回的data是文件名
   				});
   			}
   		});
@@ -113,7 +114,7 @@
   		var task = window.setInterval(function() {
   			console.log("发送获取进度的请求");
   			$.get("./PackageProcess", "", function(data, textStatus, req) {
-  				console.log("ajax返回data是"+data);
+  				console.log("ajax返回data是"+decodeURI(data));
   				if(data=="succeed"){
   					$("#process").text("打包成功，请点击下载");
   					$("#file_name_postfix").val("");
@@ -127,13 +128,13 @@
   					return;
   				}else if(data.substr(0, 5)=="error"){
   					window.clearInterval(task);
-  					if(!showingDialog)window.alert("打包失败，原因"+data);
+  					if(!showingDialog)window.alert("打包失败，原因"+decodeURI(data));
   					showingDialog = true;
-  					$("#process").text("打包失败，原因"+data);
+  					$("#process").text("打包失败，原因"+decodeURI(data));
   				}else if(data=="ready"){
   					$("#process").text("当前没有打包任务");
   				}else{
-  					$("#process").text(data);
+  					$("#process").text("当前进度:"+decodeURI(data));
   				}
   			});
   		}, 2500);
@@ -148,10 +149,18 @@
   		$("#process").text("正在拉取代码，请稍等");
   		isPulling = true;
   		$.get("./PullCodeServlet", "branch="+choosedBranch, function(data, textStatus, req) {
-  			console.log("pull代码的data是"+data);
-  			if(data=="succeed")window.alert("pull 代码成功");
-  			else window.alert("pull 代码失败");
-  			$("#process").text("代码拉取完毕");
+  			console.log("pull代码的data是"+decodeURI(data));
+  			if(data=="succeed"){
+  				window.alert("pull 代码成功");
+  				$("#process").text("代码拉取完毕");
+  			}else if(data=="compiling"){
+  				window.alert("有人正在打包，请稍候再试");
+  				$("#process").text("有人正在打包，请稍候再试");
+  			}else if(data=="failed"){
+  			 	window.alert("pull 代码失败");
+  			}else {
+  				window.alert(decodeURI(data));
+  			}
   			isPulling = false;
   		});
   	});
@@ -178,7 +187,7 @@
   		});
   	}
   	listFiles();
-  	//下面是
+  	//下面是获取可用分支
   	function listBranches(){
   		$.get("./BranchList", "", function(data, textStatus, req) {
   			console.log("获取到的分支名是"+data);

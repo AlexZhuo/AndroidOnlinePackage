@@ -13,7 +13,7 @@
     <description></description>
     <display-name>PackageOL</display-name>
     <servlet-name>PackageOL</servlet-name>
-    <servlet-class>zz.vc.qduxsh.servlet.PackageOL</servlet-class>
+    <servlet-class>com.imaginato.servlet.PackageOL</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>PackageOL</servlet-name>
@@ -23,7 +23,7 @@
     <description></description>
     <display-name>PackageProcess</display-name>
     <servlet-name>PackageProcess</servlet-name>
-    <servlet-class>zz.vc.qduxsh.servlet.PackageProcess</servlet-class>
+    <servlet-class>com.imaginato.servlet.PackageProcess</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>PackageProcess</servlet-name>
@@ -33,7 +33,7 @@
     <description></description>
     <display-name>ApkFilesList</display-name>
     <servlet-name>ApkFilesList</servlet-name>
-    <servlet-class>zz.vc.qduxsh.servlet.ApkFilesList</servlet-class>
+    <servlet-class>com.imaginato.servlet.ApkFilesList</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>ApkFilesList</servlet-name>
@@ -43,14 +43,21 @@
     <description></description>
     <display-name>PullCodeServlet</display-name>
     <servlet-name>PullCodeServlet</servlet-name>
-    <servlet-class>zz.vc.qduxsh.servlet.PullCodeServlet</servlet-class>
+    <servlet-class>com.imaginato.servlet.PullCodeServlet</servlet-class>
   </servlet>
   <servlet>
     <description>This is the description of my J2EE component</description>
     <display-name>This is the display name of my J2EE component</display-name>
     <servlet-name>BranchList</servlet-name>
-    <servlet-class>zz.vc.qduxsh.servlet.BranchList</servlet-class>
+    <servlet-class>com.imaginato.servlet.BranchList</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>RestartServlet</servlet-name>
+    <servlet-class>com.imaginato.servlet.RestartServlet</servlet-class>
+  </servlet>
+
 
   <servlet-mapping>
     <servlet-name>PullCodeServlet</servlet-name>
@@ -59,5 +66,9 @@
   <servlet-mapping>
     <servlet-name>BranchList</servlet-name>
     <url-pattern>/BranchList</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>RestartServlet</servlet-name>
+    <url-pattern>/RestartServlet</url-pattern>
   </servlet-mapping>
 </web-app>

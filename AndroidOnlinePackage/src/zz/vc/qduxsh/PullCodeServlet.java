@@ -1,5 +1,4 @@
-package zz.vc.qduxsh.servlet;
-
+package zz.vc.qduxsh;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -9,9 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import zz.vc.qduxsh.tools.PackageNow_Linux;
-import zz.vc.qduxsh.tools.PackageNow_Linux.ReadLineCallBack;
-
+import zz.vc.tools.PackageNow;
+import zz.vc.tools.PackageNow.ReadLineCallBack;
 
 /**
  * Servlet implementation class PullCodeServlet
@@ -35,7 +33,7 @@ public class PullCodeServlet extends HttpServlet {
 		response.setContentType("text/html");
 		int branch = 0;
 		final boolean[] status = {true} ;//记录是否pull成功
-		if(PackageNow_Linux.isPackaging){
+		if(PackageNow.isPackaging){
 			PrintWriter writer = response.getWriter();
 			writer.write("compiling");
 			writer.flush();
@@ -49,8 +47,8 @@ public class PullCodeServlet extends HttpServlet {
 			System.out.println("没有传来分支号！！！");
 			status[0] = false;
 		}
-		PackageNow_Linux.isPackaging = true;
-		PackageNow_Linux.runOneRow(PackageNow_Linux.gitPull(branch), new ReadLineCallBack() {
+		PackageNow.isPackaging = true;
+		PackageNow.runOneRow(PackageNow.gitPull(branch), new ReadLineCallBack() {
 			
 			public void readLine(String line) {
 				// TODO Auto-generated method stub
@@ -59,7 +57,7 @@ public class PullCodeServlet extends HttpServlet {
 		});
 		PrintWriter writer = response.getWriter();
 		writer.write(status[0]?"succeed":"failed");
-		PackageNow_Linux.isPackaging = false;
+		PackageNow.isPackaging = false;
 		writer.flush();
 		writer.close();
 	}
